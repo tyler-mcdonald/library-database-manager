@@ -23,8 +23,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 /** Redirect trailing '/' slashes */
 app.use((req, res, next) => {
-  console.log(req.path.slice(-1));
-
   if (req.path.slice(-1) === "/" && req.path.length > 1) {
     const query = req.url.slice(req.path.length);
     const safepath = req.path.slice(0, -1).replace(/\/+/g, "/");
@@ -51,7 +49,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error", {
+  res.render(err.status === 404 ? "page-not-found" : "error", {
     error: req.app.get("env") === "development" ? err : {},
     title: err.message,
     message: err.message,
