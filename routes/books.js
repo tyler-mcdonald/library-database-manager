@@ -3,12 +3,12 @@ var router = express.Router();
 const Book = require("../models").Book;
 
 /** GET new book page */
-router.get("/new", async function (req, res, next) {
+router.get("/new", async (req, res, next) => {
   res.render("new-book", { book: {} });
 });
 
 /** POST new book */
-router.post("/new", async function (req, res) {
+router.post("/new", async (req, res) => {
   try {
     const book = await Book.create(req.body);
     res.redirect(`/`);
@@ -26,23 +26,31 @@ router.post("/new", async function (req, res) {
 /** GET book by id */
 router.get("/:id", async function (req, res, next) {
   const book = await Book.findByPk(req.params.id);
-  res.render("update-book", { book });
+  if (book) {
+    res.render("update-book", { book });
+  } else {
+    next();
+  }
 });
 
 /** POST update book info by id */
 router.post("/:id", async function (req, res, next) {
-  try {
-    const book = await Book.findByPk(req.params.id);
-    await book.update(req.body);
-    res.redirect(`/`);
-  } catch (error) {
-    if (error.name === "SequelizeValidationError") {
-      const book = await Book.build(req.body);
-      const errors = error.errors.map((err) => err.message);
-      res.render("update-book", { book, errors });
-    } else {
-      throw error;
+  const book = await Book.findByPk(req.params.id); // moved out of try block
+  if (book) {
+    try {
+      await book.update(req.body);
+      res.redirect(`/`); // added book.id
+    } catch (error) {
+      if (error.name === "SequelizeValidationError") {
+        // await Book.build(req.body);
+        const errors = await error.errors.map((err) => err.message);
+        res.render("update-book", { book, errors });
+      } else {
+        throw error;
+      }
     }
+  } else {
+    res.sendStatus(404);
   }
 });
 
