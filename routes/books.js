@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Book = require("../models").Book;
+const Book = require("../models").Books;
 const { Op } = require("sequelize");
 const createPages = require("../src/createPages");
 
@@ -12,7 +12,7 @@ router.get("/new", async (req, res, next) => {
 /** POST new book */
 router.post("/new", async (req, res) => {
   try {
-    const book = await Book.create(req.body);
+    await Book.create(req.body);
     res.redirect(`/`);
   } catch (error) {
     if (error.name === "SequelizeValidationError") {
@@ -25,20 +25,10 @@ router.post("/new", async (req, res) => {
   }
 });
 
-/** GET new book form */
-router.get("/search", async (req, res, next) => {
-  let books;
-  res.render("index", { books });
-});
-
-/** GET book by id */
+/** GET book id */
 router.get("/:id", async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
-  if (book) {
-    res.render("update-book", { book });
-  } else {
-    next();
-  }
+  book ? res.render("update-book", { book }) : next();
 });
 
 /** POST edit book */
@@ -73,10 +63,13 @@ router.get("/", async (req, res, next) => {
   let books;
   const search = req.query.search;
   const page = parseInt(req.query.page);
-  if (search === "") {
-    return res.redirect("/");
-  } else if (search) {
-    // select books where any attribute matches search
+  const activePage = page || 1;
+
+  /** Remove empty search from url */
+  if (search === "") return res.redirect("/");
+
+  /** Return search results */
+  if (search) {
     books = await Book.findAll({
       where: {
         [Op.or]: [
@@ -88,32 +81,17 @@ router.get("/", async (req, res, next) => {
       },
     });
     const pages = createPages(books);
-    books = page ? pages[page - 1] : pages[0];
-    if (pages.length === 0) {
-      return res.render("no-results", { search });
-    }
-    res.render("index", {
-      title: "Library Database",
-      books,
-      search,
-      pages,
-    });
-  } else {
-    books = await Book.findAll();
-    const pages = createPages(books);
-    books = page ? pages[page - 1] : pages[0];
-    // books = pages[page - 1];
-    res.render("index", {
-      title: "Library Database",
-      books,
-      pages,
-    });
+    books = page ? pages[page - 1] : pages[0]; // default to page=1
+    if (pages.length === 0) return res.render("no-results", { search });
+    return res.render("index", { books, search, pages, activePage });
   }
-});
 
-// router.get("/", async (req, res, next) => {
-//   const url = new URL("http://localhost:3000/books?page=1");
-//   res.redirect(url);
-// });
+  /** Return all books by page */
+  books = await Book.findAll();
+  const pages = createPages(books);
+  books = page ? pages[page - 1] : pages[0];
+
+  res.render("index", { books, pages, activePage });
+});
 
 module.exports = router;

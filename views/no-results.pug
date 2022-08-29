@@ -1,12 +1,8 @@
 extends layout
 
 block content 
-    p make this into a template***
-    h1= title="Library Database"
-        div.searchForm
-        form(method='get' action='/books')  
-            input.search(name='search' type='text' placeholder='Search by title, author, etc...') 
-            input.search-button(type='submit' value='Search') 
-            a.button(href="books") All Books
+    include navbar
     h2 No Results
-    p= `No results found for "${search}".`
+    p= `No results found for "${search}"`
+    p 
+        a.button(href='/') Back

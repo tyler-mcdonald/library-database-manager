@@ -1,0 +1,12 @@
+extends layout 
+
+block content 
+    if !title 
+        h1 Library Database 
+    h1('Library Database')= title
+        div.navbar
+            div.searchForm
+                form(method='get' action='/books')  
+                    input.search(name='search' type='text' placeholder='Search by title, author, etc...') 
+                    input.search-button(type='submit' value='Search')      
+            a.button.home-button(href="books") All Books

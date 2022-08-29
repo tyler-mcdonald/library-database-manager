@@ -1,45 +1,16 @@
 extends layout
 
 block content
-  h1= title
-    div.searchForm
-      form(method='get' action='/books')  
-          input.search(name='search' type='text' placeholder='Search by title, author, etc...') 
-          input.search-button(type='submit' value='Search') 
-          a.button.home-button(href="books") All Books
+  include navbar
 
   if search
     div
       p Showing results for "#{search}"
-  table 
-    thead 
-      tr  
-        th Title 
-        th Author 
-        th Genre 
-        th Year 
-    tbody 
-    each book in books
-      tr 
-        td
-          a(href=`/books/${book.id}`)= book.title
-        td= book.author
-        td= book.genre
-        td= book.year
+
+  include books-table
     
   div 
-    p
-      a.button(href="books/new") Add Book
+    br
+    a.button(href="books/new") Add Book
 
-  div 
-    ul.page-buttons 
-      each page in pages 
-        li
-          if search 
-            a.button(type="button" 
-            href=`/books?search=${search}&page=${pages.indexOf(page) + 1}`
-            )= pages.indexOf(page) + 1
-          else
-            a.button(type="button" 
-            href=`/books?page=${pages.indexOf(page) + 1}`
-            )= pages.indexOf(page) + 1
+  include page-buttons

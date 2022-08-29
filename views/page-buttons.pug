@@ -1,0 +1,30 @@
+extends layout 
+
+block content 
+    div 
+        ul.page-buttons 
+            each page in pages 
+                - var pageNumber = pages.indexOf(page) + 1
+                li
+                if search 
+                    if activePage === pageNumber
+                        a.button.active(
+                            type="button" 
+                            href=`/books?search=${search}&page=${pageNumber}`)
+                            = pageNumber
+                    else
+                        a.button(
+                            type="button" 
+                            href=`/books?search=${search}&page=${pageNumber}`)
+                            = pageNumber
+                else
+                    if activePage === pageNumber
+                        a.button.active(
+                            type="button" 
+                            href=`/books?page=${pageNumber}`)
+                            = pageNumber
+                    else 
+                        a.button(
+                            type="button" 
+                            href=`/books?page=${pageNumber}`)
+                            = pageNumber
