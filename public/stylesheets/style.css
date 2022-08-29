@@ -18,6 +18,7 @@ a.button, input[type=submit] {
   color: white;
   background: #019875;
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 10px;
   padding: 10px 14px 10px;
   font-size: 14px;
   border-radius: 10px;
@@ -150,7 +151,18 @@ ul.page-buttons {
 
 ul.page-buttons a {
   padding: 10px;
-  margin: 1em;
+  margin: 10px;
   size: 2em;
   font-size: inherit;
+}
+
+.page-buttons a.active {
+  background-color: #01b1893d;
+  color: black
+}
+
+/* Nav bar */
+.navbar {
+  display:flex;
+  padding: 10px;
 }
