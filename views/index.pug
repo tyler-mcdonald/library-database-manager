@@ -2,9 +2,15 @@ extends layout
 
 block content
   h1= title
-  p
-    a.button(href="books/new") Add Book
+    div.searchForm
+      form(method='get' action='/books')  
+          input.search(name='search' type='text' placeholder='Search by title, author, etc...') 
+          input.search-button(type='submit' value='Search') 
+          a.button.home-button(href="books") All Books
 
+  if search
+    div
+      p Showing results for "#{search}"
   table 
     thead 
       tr  
@@ -20,3 +26,20 @@ block content
         td= book.author
         td= book.genre
         td= book.year
+    
+  div 
+    p
+      a.button(href="books/new") Add Book
+
+  div 
+    ul.page-buttons 
+      each page in pages 
+        li
+          if search 
+            a.button(type="button" 
+            href=`/books?search=${search}&page=${pages.indexOf(page) + 1}`
+            )= pages.indexOf(page) + 1
+          else
+            a.button(type="button" 
+            href=`/books?page=${pages.indexOf(page) + 1}`
+            )= pages.indexOf(page) + 1
