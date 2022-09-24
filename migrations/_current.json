@@ -1,0 +1,62 @@
+{
+    "tables": {
+        "Books": {
+            "tableName": "Books",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "title": {
+                    "allowNull": false,
+                    "validate": {
+                        "notNull": {
+                            "msg": "Title is required"
+                        },
+                        "notEmpty": {
+                            "msg": "Title is required"
+                        }
+                    },
+                    "field": "title",
+                    "seqType": "Sequelize.STRING"
+                },
+                "author": {
+                    "allowNull": false,
+                    "validate": {
+                        "notNull": {
+                            "msg": "Author is required"
+                        },
+                        "notEmpty": {
+                            "msg": "Author is required"
+                        }
+                    },
+                    "field": "author",
+                    "seqType": "Sequelize.STRING"
+                },
+                "genre": {
+                    "field": "genre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "year": {
+                    "field": "year",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "createdAt",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updatedAt",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "revision": 1
+}
