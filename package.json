@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app.js",
-    "build": "sequelize db:migrate"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -13,10 +12,8 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "pg": "^8.8.0",
     "pug": "^3.0.2",
     "sequelize": "^6.21.4",
-    "sequelize-auto-migrations-v2": "^1.2.1",
     "sequelize-cli": "^6.4.1",
     "sqlite3": "^5.0.11"
   }
