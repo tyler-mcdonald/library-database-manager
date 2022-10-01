@@ -1,6 +1,6 @@
 # Library Database Manager
 
-A library management application used for searching database info and maintaining data in a library system.
+A database management application for maintaining and searching items in a database.
 
 ## Features
 
