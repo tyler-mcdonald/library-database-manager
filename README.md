@@ -1,6 +1,6 @@
-# SQL Library Manager
+# Library Database Manager
 
-A database interface app built for a library.
+A library management application used for searching database info and maintaining data in a library system.
 
 ## Features
 
